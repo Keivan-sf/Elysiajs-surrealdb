@@ -1,8 +1,8 @@
 import { Elysia } from "elysia";
-import { getDB } from "./database";
+import * as DB from "./database";
 import * as Books from "./components/Books/books.controller";
 
-getDB();
+await DB.initialize();
 const app = new Elysia();
 Books.route(app);
 

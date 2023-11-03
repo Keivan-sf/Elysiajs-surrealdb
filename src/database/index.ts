@@ -19,8 +19,9 @@ export class DB {
 }
 
 const db = new DB();
-export const getDB = async () => {
-  if (db.initialized) return db;
+export const initialize = async () => {
   await db.initialize();
+};
+export const getDB = () => {
   return db;
 };
