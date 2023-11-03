@@ -1,8 +1,9 @@
 import { Surreal } from "surrealdb.node";
 
-export class DB {
-  private db = new Surreal();
+export class DBConnection {
+  public db = new Surreal();
   public initialized: boolean = false;
+
   public async initialize() {
     this.initialized = true;
     console.log("connecting to 0.0.0.0");
@@ -18,10 +19,10 @@ export class DB {
   }
 }
 
-const db = new DB();
+const dbc = new DBConnection();
 export const initialize = async () => {
-  await db.initialize();
+  await dbc.initialize();
 };
 export const getDB = () => {
-  return db;
+  return dbc.db;
 };
