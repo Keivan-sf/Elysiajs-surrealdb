@@ -9,15 +9,11 @@ export class DB {
     if (!process.env.SURREAL_URI)
       throw new Error("missing SURREAL_URI env variable");
     await this.db.connect(process.env.SURREAL_URI);
-    await this.db.signin({ username: process.env.SURREAL_USER, password:process.env.SURREAL_PASS });
+    await this.db.signin({
+      username: process.env.SURREAL_USER,
+      password: process.env.SURREAL_PASS,
+    });
     await this.db.use({ ns: "test", db: "testdb" });
-    // const created = await this.db.create("testdb/test:books", {
-    //   name: "book name",
-    //   author: "J.K Rowling",
-    //   rating: 10,
-    // });
-    // console.log("created a book record");
-    // console.dir(created, { depth: 10 });
     console.log("connected");
   }
 }
