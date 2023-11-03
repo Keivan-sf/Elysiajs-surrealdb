@@ -16,6 +16,10 @@ const start = async () => {
   await db.query("DEFINE FIELD name ON TABLE book TYPE string;");
   await db.query("DEFINE FIELD author ON TABLE book TYPE string;");
   await db.query("DEFINE FIELD rating ON TABLE book TYPE number;");
+  await db.query("DEFINE FIELD hash ON TABLE book TYPE string;");
+  await db.query(
+    "DEFINE INDEX bookHashIndex ON TABLE book COLUMNS hash UNIQUE;",
+  );
 };
 
 await start();

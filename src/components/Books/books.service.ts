@@ -1,20 +1,18 @@
-import { createNewBook } from "../../database/models/book";
-export const getBook = (name: string) => {
-  return {
-    name,
-    author: "J.K Rowling",
-    rating: 10,
-  };
+import * as BookDB from "../../database/models/book";
+export const getBook = (hash: string) => {
+  return BookDB.getBookViaHash(hash);
 };
 
-export const createBook = async({
+export const createBook = async ({
   name,
   author,
 }: {
   name: string;
   author: string;
 }) => {
-  await createNewBook({
+  const hash = name.toLowerCase().replace(/\s+/g, "-");
+  await BookDB.createNewBook({
+    hash,
     name,
     author,
     rating: -1,
