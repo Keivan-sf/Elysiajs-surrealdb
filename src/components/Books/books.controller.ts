@@ -1,6 +1,5 @@
 import Elysia, { t } from "elysia";
 import * as Service from "./books.service";
-import { Optional } from "@sinclair/typebox";
 
 export const route = (app: Elysia) => {
   app.get("/book/:hash", async ({ params, set }) => {
@@ -27,9 +26,9 @@ export const route = (app: Elysia) => {
     },
   );
 
-  app.delete("/book/:hash", async ({ params, set }) => {
-    await Service.deleteBook(params.hash);
-    return { success: true };
+  app.delete("/book/:hash", async ({ params }) => {
+    const deleted = await Service.deleteBook(params.hash);
+    return { success: true, data: deleted };
   });
 
   app.patch(

@@ -16,7 +16,7 @@ export const getBookViaHash = async (book_hash: string) => {
 };
 
 export const deleteBookViaHash = async (hash: string) => {
-  return await db.query(`DELETE FROM book WHERE hash="${hash}"`);
+  return await db.query(`DELETE FROM book WHERE hash="${hash}" RETURN BEFORE`);
 };
 
 export const updateBookViaHash = async (
@@ -31,8 +31,8 @@ export const updateBookViaHash = async (
 const generateSetStatement = (data: Object): string => {
   const set_statement = Object.entries(data).reduce((acc: string[], d) => {
     const needs_qoutes =
-      typeof d[1] != "boolean" ||
-      typeof d[1] != "number" ||
+      typeof d[1] != "boolean" &&
+      typeof d[1] != "number" &&
       typeof d[1] != "bigint";
     const value = needs_qoutes ? `'${d[1]}'` : d[1];
     if (d[0] && d[1]) acc.push(`${d[0]} = ${value}`);

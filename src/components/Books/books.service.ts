@@ -27,7 +27,13 @@ export const createBook = async ({
 };
 
 export const deleteBook = async (hash: string) => {
-  return await BookDB.deleteBookViaHash(hash);
+  const result = await BookDB.deleteBookViaHash(hash);
+  if (result.length > 0) return result[0];
+  throw new HandledError(
+    `Record regarding ${hash} not found`,
+    "NOT_FOUND",
+    404,
+  );
 };
 
 export const updateBook = async (
