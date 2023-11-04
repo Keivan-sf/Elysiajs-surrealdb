@@ -1,5 +1,6 @@
 import Elysia, { t } from "elysia";
 import * as Service from "./books.service";
+import { Optional } from "@sinclair/typebox";
 
 export const route = (app: Elysia) => {
   app.get("/book/:hash", async ({ params, set }) => {
@@ -30,4 +31,18 @@ export const route = (app: Elysia) => {
     await Service.deleteBook(params.hash);
     return { success: true };
   });
+
+  app.patch(
+    "/book/:hash",
+    async ({ params, body }) => {
+      return await Service.updateBook(params.hash, body);
+    },
+    {
+      body: t.Object({
+        name: t.Optional(t.String()),
+        author: t.Optional(t.String()),
+        rating: t.Optional(t.Number()),
+      }),
+    },
+  );
 };

@@ -1,20 +1,21 @@
-type DBErrorCode = "NOT_FOUND" | "DUPLICATE_RECORD";
-const DBErrorHTTPStatus: { [key in DBErrorCode]: number } = {
+type DBErrorKey = "NOT_FOUND" | "DUPLICATE_RECORD";
+const DBErrorHTTPStatus: { [key in DBErrorKey]: number } = {
   NOT_FOUND: 404,
   DUPLICATE_RECORD: 400,
 };
 
-class DBError extends Error {
+export class DBError extends Error {
+  public code = "DBError";
   constructor(
     public original_message: string,
-    public code: DBErrorCode,
+    public key: DBErrorKey,
     user_message: string,
   ) {
     super(user_message);
   }
 
   public getHttpStatus() {
-    return DBErrorHTTPStatus[this.code];
+    return DBErrorHTTPStatus[this.key];
   }
 }
 

@@ -8,7 +8,8 @@ describe("Error handler", () => {
     );
     const parsed = generateDBError(err.message);
     expect(parsed?.getHttpStatus()).toBe(400);
-    expect(parsed?.code).toBe("DUPLICATE_RECORD");
+    expect(parsed?.key).toBe("DUPLICATE_RECORD");
+    expect(parsed?.code).toBe("DBError");
     expect(parsed?.original_message).toBe(
       "Database index `bookHashIndex` already contains 'testing-name', with record `book:iyt39zaef6wkrhg2d02a`",
     );
