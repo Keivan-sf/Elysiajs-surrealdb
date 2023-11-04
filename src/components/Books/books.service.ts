@@ -40,3 +40,4 @@ export const updateBook = async (
     throw new DBError("", "NOT_FOUND", `Record regarding ${hash} not found`);
   }
 };
+
