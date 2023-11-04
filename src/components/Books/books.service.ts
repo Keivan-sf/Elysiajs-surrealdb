@@ -1,5 +1,6 @@
 import * as BookDB from "../../database/models/book";
-import { DBError, generateDBError } from "../../lib/errorHandler";
+import { HandledError, generateDBError } from "../../lib/errorHandler";
+import { areAllPropertiesUndefined } from "../../lib/objectUtils";
 
 export const getBook = (hash: string) => {
   return BookDB.getBookViaHash(hash);
@@ -33,11 +34,21 @@ export const updateBook = async (
   hash: string,
   data: { name?: string; author?: string; rating?: number },
 ) => {
+  if (areAllPropertiesUndefined(data)) {
+    throw new HandledError(
+      "You must at least specify one property to update",
+      "VALIDATION",
+      400,
+    );
+  }
   const result = await BookDB.updateBookViaHash(hash, data);
   if (result.length > 0) {
     return result[0];
   } else {
-    throw new DBError("", "NOT_FOUND", `Record regarding ${hash} not found`);
+    throw new HandledError(
+      `Record regarding ${hash} not found`,
+      "NOT_FOUND",
+      404,
+    );
   }
 };
-

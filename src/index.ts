@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
 import * as DB from "./database";
 import * as Books from "./components/Books/books.controller";
-import { DBError } from "./lib/errorHandler";
+import { HandledError } from "./lib/errorHandler";
 const PORT = process.env.PORT ? +process.env.PORT : 3002;
 
 await DB.initialize();
@@ -12,9 +12,9 @@ app.onError(({ error, code, set }) => {
   if (elysia_errors.includes(code.toUpperCase())) {
     return { success: false, error: error.message };
   }
-  if ((code as string) == "DBError") {
-    let err = error as DBError;
-    set.status = err.getHttpStatus();
+  if ((code as string) == "HandledError") {
+    let err = error as HandledError;
+    set.status = err.http_status;
     return { success: false, error: err.message };
   }
 

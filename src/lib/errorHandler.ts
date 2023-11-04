@@ -1,21 +1,13 @@
 type DBErrorKey = "NOT_FOUND" | "DUPLICATE_RECORD";
-const DBErrorHTTPStatus: { [key in DBErrorKey]: number } = {
-  NOT_FOUND: 404,
-  DUPLICATE_RECORD: 400,
-};
 
-export class DBError extends Error {
-  public code = "DBError";
+export class HandledError extends Error {
+  public code = "HandledError";
   constructor(
-    public original_message: string,
-    public key: DBErrorKey,
-    user_message: string,
+    public message: string,
+    public key: string,
+    public http_status: number,
   ) {
-    super(user_message);
-  }
-
-  public getHttpStatus() {
-    return DBErrorHTTPStatus[this.key];
+    super(message);
   }
 }
 
@@ -23,10 +15,10 @@ export const generateDBError = (message: string) => {
   const raw_erorr = getRawError(message);
   const duplicateError = parseDuplicateError(raw_erorr);
   if (duplicateError) {
-    return new DBError(
-      raw_erorr,
-      "DUPLICATE_RECORD",
+    return new HandledError(
       `Duplicate entity for ${duplicateError.cause}`,
+      "DUPLICATE_RECORD",
+      400,
     );
   }
 };

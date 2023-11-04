@@ -7,12 +7,9 @@ describe("Error handler", () => {
       "There was a problem with the database: Database index `bookHashIndex` already contains 'testing-name', with record `book:iyt39zaef6wkrhg2d02a`",
     );
     const parsed = generateDBError(err.message);
-    expect(parsed?.getHttpStatus()).toBe(400);
+    expect(parsed?.http_status).toBe(400);
     expect(parsed?.key).toBe("DUPLICATE_RECORD");
-    expect(parsed?.code).toBe("DBError");
-    expect(parsed?.original_message).toBe(
-      "Database index `bookHashIndex` already contains 'testing-name', with record `book:iyt39zaef6wkrhg2d02a`",
-    );
+    expect(parsed?.code).toBe("HandledError");
     expect(parsed?.message).toBe("Duplicate entity for testing-name");
   });
 });
