@@ -10,10 +10,12 @@ export const route = (app: Elysia) => {
     set.status = 404;
     return { error: "not_found", success: false };
   });
+
   app.post(
     "/book",
-    ({ body }) => {
-      Service.createBook({ name: body.name, author: body.author });
+    async ({ body, set }) => {
+      await Service.createBook({ name: body.name, author: body.author });
+      set.status = 201;
       return { success: true };
     },
     {
@@ -23,4 +25,9 @@ export const route = (app: Elysia) => {
       }),
     },
   );
+
+  app.delete("/book/:hash", async ({ params, set }) => {
+    await Service.deleteBook(params.hash);
+    return { success: true };
+  });
 };

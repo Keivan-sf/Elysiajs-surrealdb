@@ -1,4 +1,5 @@
 import * as BookDB from "../../database/models/book";
+
 export const getBook = (hash: string) => {
   return BookDB.getBookViaHash(hash);
 };
@@ -17,4 +18,8 @@ export const createBook = async ({
     author,
     rating: -1,
   });
+};
+
+export const deleteBook = async (hash: string) => {
+  await BookDB.deleteBookViaHash(hash);
 };
