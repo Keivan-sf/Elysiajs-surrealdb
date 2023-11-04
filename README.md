@@ -1,4 +1,6 @@
-# book-db
+# Elysiajs + Surrealdb sample
+
+This is just me learning a fresh stack
 
 To install dependencies:
 
@@ -6,10 +8,26 @@ To install dependencies:
 bun install
 ```
 
+Setup an `.env` like below
+
+```
+SURREAL_USER=
+SURREAL_PASS=
+# uri should have ws protocol, e.g: ws://0.0.0.0:8080
+SURREAL_URI=
+PORT=
+```
+
+Setup your database:
+
+```bash
+bun setup:db
+```
+
 To run:
 
 ```bash
-bun run index.ts
+bun start
 ```
 
-This project was created using `bun init` in bun v1.0.2. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+You may now use `/book` with **CREATE** along side `/book/:hash` with **GET**,**DELETE**,**PATCH**
